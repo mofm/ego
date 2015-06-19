@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /usr/share/unixbench
+./Run $@ 2>/dev/null

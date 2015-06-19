@@ -1,0 +1,85 @@
+diff -rauB a/Run b/Run
+--- a/Run	2015-06-19 10:38:47.919049384 +0300
++++ b/Run	2015-06-19 10:50:19.369008505 +0300
+@@ -5,6 +5,7 @@
+ use POSIX qw(strftime);
+ use Time::HiRes;
+ use IO::Handle;
++use File::Path qw(make_path);
+ 
+ 
+ ############################################################################
+@@ -84,11 +85,17 @@
+ # Establish full paths to directories.  These need to be full pathnames
+ # (or do they, any more?).  They can be set in env.
+ # variables whose names are the first parameter to getDir() below.
+-my $BASEDIR = `pwd`;
++make_path($ENV{"HOME"} . '/unixbench/results');
++make_path($ENV{"HOME"} . '/unixbench/tmp');
++
++# create unixbench directory user's home and gentoo style install.
++my $BASEDIR = $ENV{"HOME"}. '/unixbench';
++my $GENTOODIR = '/usr/share/unixbench';
+ chomp($BASEDIR);
++chomp($GENTOODIR);
+ 
+ # Directory where the test programs live.
+-my $BINDIR = getDir('UB_BINDIR', $BASEDIR . "/pgms");
++my $BINDIR = getDir('UB_BINDIR', $GENTOODIR . "/pgms");
+ 
+ # Temp directory, for temp files.
+ my $TMPDIR = getDir('UB_TMPDIR', $BASEDIR . "/tmp");
+@@ -97,7 +104,7 @@
+ my $RESULTDIR = getDir('UB_RESULTDIR', $BASEDIR . "/results");
+ 
+ # Directory where the tests are executed.
+-my $TESTDIR = getDir('UB_TESTDIR', $BASEDIR . "/testdir");
++my $TESTDIR = getDir('UB_TESTDIR', $GENTOODIR . "/testdir");
+ 
+ 
+ ############################################################################
+@@ -785,13 +792,13 @@
+     $ENV{'LANG'} = $language;
+ 
+     # Check that the required files are in the proper places.
+-    system("make check");
+-    if ($? != 0) {
+-        system("make all");
+-        if ($? != 0) {
+-            abortRun("\"make all\" failed");
+-        }
+-    }
++#    system("make check");
++#    if ($? != 0) {
++#        system("make all");
++#        if ($? != 0) {
++#            abortRun("\"make all\" failed");
++#        }
++#    }
+ 
+     # Create a script to kill this run.
+     system("echo \"kill -9 $$\" > \"${TMPDIR}/kill_run\"");
+diff -rauB a/src/arith.c b/src/arith.c
+--- a/src/arith.c	2015-06-04 20:20:18.000000000 +0300
++++ b/src/arith.c	2015-06-19 10:52:55.687999264 +0300
+@@ -35,7 +35,7 @@
+ 
+ int dumb_stuff(int);
+ 
+-unsigned long iter;
++unsigned volatile long iter;
+ 
+ /* this function is called when the alarm expires */
+ void report()
+diff -rauB a/src/dhry_1.c b/src/dhry_1.c
+--- a/src/dhry_1.c	2015-06-04 20:20:18.000000000 +0300
++++ b/src/dhry_1.c	2015-06-19 10:51:36.089003970 +0300
+@@ -75,7 +75,7 @@
+ 
+ #ifdef TIMES
+ struct tms      time_info;
+-extern  int     times ();
++//extern  int     times ();
+                 /* see library function "times" */
+ #define Too_Small_Time 120
+                 /* Measurements should last at least about 2 seconds */
