@@ -1,26 +1,26 @@
 diff -rauB a/Makefile.in b/Makefile.in
 --- a/Makefile.in	2015-06-21 03:45:16.479300291 +0300
-+++ b/Makefile.in	2015-06-21 04:01:53.593241342 +0300
++++ b/Makefile.in	2015-06-21 21:14:05.765579908 +0300
 @@ -48,18 +48,18 @@
  
  install: all
  	# firejail executable
 -	strip src/firejail/firejail
-+	$(CC) -o src/firejail/firejail src/firejail/firejail.h
++	#strip src/firejail/firejail
  	mkdir -p $(DESTDIR)/$(PREFIX)/bin
  	install -c -m 0755 src/firejail/firejail $(DESTDIR)/$(PREFIX)/bin/.
  	chmod u+s $(DESTDIR)/$(PREFIX)/bin/firejail
  	# firemon executable
 -	strip src/firemon/firemon
-+	$(CC) -o src/firemon/firemon src/firemon/firemon.h
++	#strip src/firemon/firemon
  	install -c -m 0755 src/firemon/firemon $(DESTDIR)/$(PREFIX)/bin/.
  	# libraries and plugins
 -	strip src/libtrace/libtrace.so
-+	$(CC) -o src/libtrace/libtrace.so src/libtrace/libtrace.c
++	#strip src/libtrace/libtrace.so
  	mkdir -p $(DESTDIR)/$(PREFIX)/lib/firejail
  	install -c -m 0644 src/libtrace/libtrace.so $(DESTDIR)/$(PREFIX)/lib/firejail/.
 -	strip src/ftee/ftee
-+	$(CC) -o src/ftee/ftee src/ftee/ftee.h
++	#strip src/ftee/ftee
  	install -c -m 0755 src/ftee/ftee $(DESTDIR)/$(PREFIX)/lib/firejail/.
  	# documents
  	mkdir -p $(DESTDIR)/$(DOCDIR)
