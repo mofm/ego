@@ -20,7 +20,7 @@ src_prepare() {
 	epatch "${FILESDIR}/${P}-fortify_source.patch"
 }
 
-src_configure(){
+src_configure() {
 	econf \
 		$(use_enable seccomp ) \
 		$(use_enable chroot ) \
