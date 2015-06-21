@@ -16,6 +16,7 @@ KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
 IUSE="+seccomp +chroot +bind"
 
 src_prepare() {
+	epatch "${FILESDIR}/${P}-pre_strip.patch"
 	epatch "${FILESDIR}/${P}-fortify_source.patch"
 }
 
